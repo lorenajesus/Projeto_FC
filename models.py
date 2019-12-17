@@ -20,3 +20,11 @@ class Usuario:
         self.id = id
         self.nome = nome
         self.senha = senha
+
+class Lista_Estab:
+    def __init__(self, _rz_social,_email,_telefone,_status, id=None):
+        self.rz_social = _rz_social
+        self.email = _email
+        self.status = _status
+        self.telefone = _telefone
+        self.id = id

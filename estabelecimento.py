@@ -25,10 +25,15 @@ usuario_dao = UsuarioDao(db)
 
 
 
+# @app.route('/antigo_index')
+# def index():
+#     dado = estab_dao.listar()
+#     return render_template('lista.html', titulo='Estabelecimentos', elista=dado)
+
 @app.route('/')
 def index():
-    dado = estab_dao.listar()
-    return render_template('lista.html', titulo='Estabelecimentos', elista=dado)
+    dado = estab_dao.listarbasica()
+    return render_template('lista.html', titulo='Estabelecimentos', listaBasica=dado)
 
 
 @app.route('/novo')
@@ -89,6 +94,10 @@ def editar(id):
     print('dados ',dados_estab.id)
     return render_template('editar.html', titulo = 'Editando Estabelecimento', dados_estab=dados_estab)
 
+@app.route('/visualizar/<int:id>')
+def visualizar(id):
+    ver_dados = estab_dao.busca_por_id(id)
+    return render_template('visualizar.html', titulo='Dados da empresa', ver_dados=ver_dados)
 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
@@ -108,6 +117,26 @@ def atualizar():
     etb = Estabelecimento(rz_social, cnpj, email, endereco, cidade, estado, telefone, dtcadastro,categoria, status, agencia,conta,id)
     estab_dao.salvar(etb)
     return redirect(url_for('index'))
+
+
+@app.route('/verdados', methods=['POST',])
+def verdados():
+    id = request.form['id']
+    rz_social = request.form['rz_social']
+    cnpj = request.form['cnpj']
+    email = request.form['email']
+    endereco = request.form['endereco']
+    cidade = request.form['cidade']
+    estado = request.form['estado']
+    telefone = request.form['telefone']
+    dtcadastro = request.form['dtcadastro']
+    categoria = request.form['categoria']
+    status = request.form['status']
+    agencia = request.form['agencia']
+    conta = request.form['conta']
+    # etb = Estabelecimento(rz_social, cnpj, email, endereco, cidade, estado, telefone, dtcadastro,categoria, status, agencia,conta,id)
+    # estab_dao.salvar(etb)
+    return render_template('visualizar.html')
 
 
 

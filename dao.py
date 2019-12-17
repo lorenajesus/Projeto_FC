@@ -4,15 +4,14 @@
 
 
 
-from models import Estabelecimento, Usuario
+from models import Estabelecimento, Usuario, Lista_Estab
 
 SQL_DELETA_ESTABELECIMENTO = 'delete from programa.estabelecimento where id = %s'
 SQL_ESTABELECIMENTO_POR_ID = 'SELECT  razaosocial,cnpj,email,endereco,cidade,estado,telefone,dtcadastro,categoria,status,agencia,conta,id from programa.estabelecimento where id = %s'
 SQL_USUARIO_POR_ID = 'SELECT id, nome, senha from usuario where id = %s'
 SQL_ATUALIZA_ESTABELECIMENTO = 'UPDATE programa.estabelecimento SET razaosocial=%s, cnpj=%s, email=%s, endereco=%s, cidade=%s, estado=%s, telefone=%s, dtcadastro=%s,categoria=%s, status=%s, agencia=%s, conta=%s where id = %s'
-
 SQL_BUSCA_ESTABELECIMENTOS = 'SELECT id,razaosocial,cnpj,email,endereco,cidade,estado,telefone,dtcadastro,categoria,status,agencia,conta from programa.estabelecimento'
-
+SQL_LISTA_BASICA = 'SELECT id,razaosocial,email,telefone,status from programa.estabelecimento'
 SQL_CRIA_ESTABELECIMENTO = 'INSERT into programa.estabelecimento values (null,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)'
 
 
@@ -24,8 +23,7 @@ class EstabelecimentoDao:
         self.__db = db
 
     def salvar(self, estab):
-        print('ID', estab.id)
-        print('tentando ')
+
         cursor = self.__db.connection.cursor()
 
         if (estab.id):
@@ -41,6 +39,14 @@ class EstabelecimentoDao:
         cursor.execute(SQL_BUSCA_ESTABELECIMENTOS)
         estab = traduz_estabelecimento(cursor.fetchall())
         return estab
+
+    def listarbasica(self):
+        cursor = self.__db.connection.cursor()
+        cursor.execute(SQL_LISTA_BASICA)
+        seila = exibe(cursor.fetchall())
+
+        return seila
+        #return Lista_Estab(seila[0], seila[1], seila[2], seila[3], seila[4],seila[5],seila[6], seila[7])
 
     def busca_por_id(self, id):
         cursor = self.__db.connection.cursor()
@@ -74,5 +80,15 @@ def traduz_estabelecimento(estab):
 
 def traduz_usuario(tupla):
     return Usuario(tupla[0], tupla[1], tupla[2])
+
+
+def exibe(seila):
+    def exibedados(tupla):
+        return Lista_Estab(tupla[1], tupla[2], tupla[3], tupla[4],id=tupla[0])
+    return list(map(exibedados, seila))
+
+
+
+
 
 

@@ -5,39 +5,23 @@
             <thead class="thead-default">
                 <tr>
                     <th>Razação Social</th>
-                    <th>CNPJ</th>
                     <th>Email</th>
-                    <th>Endereço</th>
-                    <th>Cidade</th>
-                    <th>Estado</th>
                     <th>Telefone</th>
-                    <th>Data Cadastro</th>
-                    <th>Categoria</th>
                     <th>Status</th>
-                    <th>Agencia</th>
-                    <th>Conta</th>
                     <th></th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-            {% for lista in elista %}
+            {% for lista in listaBasica %}
                 <tr>
                     <td>{{lista.rz_social}}</td>
-                    <td>{{lista.cnpj}}</td>
                     <td>{{lista.email}}</td>
-                    <td>{{lista.endereco}}</td>
-                    <td>{{lista.cidade}}</td>
-                    <td>{{lista.estado}}</td>
                     <td>{{lista.telefone}}</td>
-                    <td>{{lista.dtcadastro}}</td>
-                    <td>{{lista.categoria}}</td>
                     <td>{{lista.status}}</td>
-                    <td>{{lista.agencia}}</td>
-                    <td>{{lista.conta}}</td>
+                    <td><a href = "{{ url_for('visualizar', id=lista.id) }}">Visualizar</a></td>
                     <td><a href = "{{ url_for('editar', id=lista.id) }}">Editar</a></td>
-                    <td><a href = "{{ url_for('deletar', id=lista.id) }}">Deletar</a></td>
                 </tr>
             {%endfor%}
             </tbody>
